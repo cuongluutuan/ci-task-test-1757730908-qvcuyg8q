@@ -1,0 +1,41 @@
+name: simple-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: 'Task ID'
+        required: false
+        default: 'default'
+  push:
+    branches: [ main ]
+
+jobs:
+  task:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Print task info
+      run: |
+        echo "Task ID: ${{ github.event.inputs.task_id || 'triggered-by-push' }}"
+        echo "Repository: ${{ github.repository }}"
+        echo "Workflow: simple-test"
+
+    - name: Print Environment
+      run: env
+
+    - name: Print Working Directory
+      run: pwd
+
+    - name: List Files
+      run: ls -la
+
+    - name: Echo Test
+      run: echo 'Hello from CI task runner!'
+
+    - name: Ip
+      run: curl https://api.ipify.org?format=json
+
